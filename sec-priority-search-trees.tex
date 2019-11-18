@@ -1,21 +1,21 @@
 \section{Priority search tree: cont}
 \label{sec:range-queries}
 
-This section is the continuation of the last session on Priority Search Trees (PSTs) where we are interested to dive deeper into the analysis of PSTs. Before going into detail, we need to recall PST with $P_{ymax}$ as the point with the largest $y-$coordinate and $x_{med}$ as the median $x$-coordinate among points in database $S$. A PST can be built up as shown in Figure~\ref{fig:PST1} where $S_{left}$ and $S_{right}$ are obtained as follows:
+This section is a continuation of the last session on Priority Search Trees (PSTs) where we are interested to dive deeper into the analysis of PSTs. Before going into details, we need to recall PST with $P_{ymax}$ as the point with the largest $y-$coordinate and $x_{med}$ as the median $x$-coordinate among points in database $S$. A PST can be built up as shown in Figure~\ref{fig:PST1} where $S_{left}$ and $S_{right}$ are obtained as follows:
 \begin{align*}
-    & S_{left}=\{P \in S\setminus \{P_{ymax}\} \mid P.x \leq x_{med} \}\\
-    &  S_{right}=\{P \in S\setminus \{P_{ymax}, S_{right}\}\}\\
+    & S_{left}=\{P \in S\setminus \{p_{ymax}\} \mid P.x \leq x_{med} \}\\
+    &  S_{right}=\{P \in S\setminus \{P_{ymax}\} \cup S_{right}\}\\
 \end{align*}
 \begin{figure}[h!]
 \begin{center}
   \includegraphics[scale = .5]{ipe/RQ1.pdf}
   \vspace{-0.1in}
-  \caption{Building Priority Search Tree.}
+  \caption{Building priority search tree.}
   \label{fig:PST1}
 \end{center}
 \end{figure}
 
-To report all the nodes in a subtree rooted at $v$, we can use the following pseudocode:
+To report all nodes in a subtree rooted at $v$, we can use the following pseudocode:
 \begin{algorithm}[H]
 \caption{Report a subtree in PST}\label{Report_subtree1}
 \begin{algorithmic}[1]
@@ -69,7 +69,7 @@ For the base case where there is no point in the query above $q_y$, the theorem 
     T(v) &= 1 + T(v.left)+ T(v.right)\\
     &= 1 + c\cdot k_{v.left} + c-1 + c\cdot k_{v.right} + c-1 \\
     &= c-1 + c(1+k_{v.left}+k_{v.right})\\
-    &= c-1 + c\cdot k_v
+    &= c-1 + c\cdot k_v \qedhere
 \end{align*}
 \end{proof}
 
@@ -92,10 +92,11 @@ We follow the subsequent steps to report all nodes corresponding to the specifie
     \item Follow left path down to $x_L$ (left boundary) and report all points in the subtrees hanging from the right.
     \item Follow right path down to $x_R$ (right boundary) and report all points in the subtrees hanging from the left.
 \end{itemize}
-The following pseudocode describes the query algorithm:
+The pseudocode shown in Alogrithm~\ref{3-sided} describes the query algorithm:
 
 \begin{algorithm}[h!]
-\caption{3-sided Range Query}\label{3-sided}
+\caption{3-sided Range Query}
+\label{3-sided}
 \begin{algorithmic}[1]
 \Function{3-sided Query}{$v, [x_L, x_R], y$}
 \While{$(v \neq NULL) \textbf{and} (v.x_{med} \leq x_L \ \textbf{or} \ x_R < v.x_{med})$}

@@ -68,9 +68,9 @@ The root of the interval tree divides the set of intervals $I = \{i_1, \dots, i_
 The left subtree will recursively store $I_{left} = \{ i_1, i_2 \}$ and the right subtree will recursively store $I_{right} =\{i_6, i_7, i_8 \}$.
 % 
 \paragraph{How to store $I_{mid}$?} 
-In order to retrieve all intervals that are stabbed by $\textcolor{red}{q = t}$, we can scan the list of intervals stored at node $v$ for stabbed intervals before going to the left or right subtree depending on whether $\textcolor{red}{t}$ less than or greater than $v.val$.
+In order to retrieve all intervals that are stabbed by $\textcolor{red}{q = t}$, we can scan the list of intervals stored at node $v$ for stabbed intervals before going to the left or right subtree depending on whether $\textcolor{red}{t}$ is less than or greater than $v.val$.
 %
-However, it may happened that all $n$ intervals are stored in the root, and checking for stabbed intervals may take $O(n)$ then instead of $O(k)$, the output size!
+However, it may happen that all $n$ intervals are stored in the root, and checking for stabbed intervals may take $O(n)$ then instead of $O(k)$, the output size!
 
 In order to prevent that, we store $I_{mid}$ in a more efficient way by storing $I_{mid}$ sorted by the start point in an increasing order, and another copy of $I'_{mid}$ of $I_{mid}$ ordered by the end point in a decreasing order.
 %
@@ -100,7 +100,7 @@ The stabbing query would then run over $I_{mid}$ and would have $i_3 \leq i_4 \l
 
 Since, we store only 2 copies of each interval $i$ in the entire tree, interval trees takes $O(n)$ space.
 %
-To report all stabbed intervals at node $v$, we need $k_v +1 $ comparisons. The recurrence relation is then is given by
+To report all stabbed intervals at node $v$, we need $k_v +1 $ comparisons. The recurrence relation is then given by
 \begin{align*} 
 T(v) &= O(1 + k_v) + \max \{T(v.left) , T(v.right) \}   \\
 & = O(\log n + k).
@@ -111,7 +111,8 @@ The preprocessing time takes sorting complexity, as we need to build a balanced 
 We can write the recurrence relation of $\textsc{BuiltInt}$ as follows:
 \begin{align*}
 	T(n, h) &= O(n) + T(I_{left}, h-1) + T (I_{right}, h-1) \\
-	& = O(nh) = O(n \log n).  
+	& = O(nh) \\
+	&= O(n \log n).  
 \end{align*}
 
 % \subsection*{Answering the window query}

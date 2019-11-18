@@ -1,14 +1,14 @@
 \section{Segment trees for stabbing queries}
 \label{sec:segmenet-trees}
 
-Consider the set of line segments $L = \{ \ell_1, \ell_2, \ell_3, \ell_4, \ell_5\}$ in the following diagrams: 
+Consider the set of line segments $L = \{ \ell_1, \ell_2, \ell_3, \ell_4, \ell_5\}$ in the following diagram: 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[scale = .8]{ipe/slanted-lines.pdf}
 \caption{Set of line segments $L = \{ \ell_1, \ell_2, \ell_3, \ell_4, \ell_5\}$ with slabs $S = \{s_{-\infty},s_1, \dots, s_9, s_{\infty} \}$.}
 \end{figure}
-Observe that we can't always define a total ordering over slanted line segments that preserves the transitivity property. 
+Observe that we cannot always define a total ordering over slanted line segments that preserves the transitivity property. 
 %
 For example, if we consider $\ell_5 \leq \ell_4 \leq \ell_2$ then by transitivity we would have $\ell_5 \leq \ell_2$. 
 %
