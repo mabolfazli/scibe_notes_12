@@ -98,10 +98,21 @@ The stabbing query would then run over $I_{mid}$ and would have $i_3 \leq i_4 \l
     \end{algorithmic}
 \end{algorithm}
 
-Since, we store only 2 copies of each interval $i$ in the entire tree, interval trees takes $O(n)$ space. To report all stabbed intervals at node $v$, we need $k_v +1 $ comparisons. The recurrence relation is then is given by
+Since, we store only 2 copies of each interval $i$ in the entire tree, interval trees takes $O(n)$ space.
+%
+To report all stabbed intervals at node $v$, we need $k_v +1 $ comparisons. The recurrence relation is then is given by
 \begin{align*} 
 T(v) &= O(1 + k_v) + \max \{T(v.left) , T(v.right) \}   \\
 & = O(\log n + k).
 \end{align*}
 
-The preprocessing time takes sorting complexity, as we need to sort all intervals by start point, and all intervals by end points and also built balanced BST. Hence, preprocessing takes $O(n\log n)$.
+The preprocessing time takes sorting complexity, as we need to build a balanced BST, sort all intervals by start point, and again by end points. 
+%
+We can write the recurrence relation of $\textsc{BuiltInt}$ as follows:
+\begin{align*}
+	T(n, h) &= O(n) + T(I_{left}, h-1) + T (I_{right}, h-1) \\
+	& = O(nh) = O(n \log n).  
+\end{align*}
+
+% \subsection*{Answering the window query}
+% In order to answer our original window query, we need sort $I_{mid}$ by $y$-axis  
