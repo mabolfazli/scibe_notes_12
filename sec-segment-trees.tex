@@ -1,4 +1,4 @@
-\section{Segment trees}
+\section{Segment trees for stabbing queries}
 \label{sec:segmenet-trees}
 
 Consider the set of line segments $L = \{ \ell_1, \ell_2, \ell_3, \ell_4, \ell_5\}$ in the following diagrams: 
@@ -6,6 +6,7 @@ Consider the set of line segments $L = \{ \ell_1, \ell_2, \ell_3, \ell_4, \ell_5
 \begin{figure}[h!]
 \centering
 \includegraphics[scale = .8]{ipe/slanted-lines.pdf}
+\caption{Set of line segments $L = \{ \ell_1, \ell_2, \ell_3, \ell_4, \ell_5\}$ with slabs $S = \{s_{-\infty},s_1, \dots, s_9, s_{\infty} \}$.}
 \end{figure}
 Observe that we can't always define a total ordering over slanted line segments that preserves the transitivity property. 
 %
@@ -28,4 +29,4 @@ Next we augment the BST node $v$ with list of line segments $\ell$ that crosses 
 Each segment will be stored in at most 2 nodes at each level of segment tree.
 \end{claim} 
 
-Based on the result above, the segment tree would take $O(n \log n)$ space and answer stabbing queries in $O(\log n + k)$.
+The proof of the claim above can be found in chapter 10 in \cite{Berg:2008}. Based on the result above, the segment tree would take $O(n \log n)$ space and answer stabbing queries in $O(\log n + k)$.
