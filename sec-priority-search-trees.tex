@@ -1,10 +1,10 @@
 \section{Priority search tree: cont}
 \label{sec:range-queries}
 
-This section is a continuation of the last session on Priority Search Trees (PSTs) where we are interested to dive deeper into the analysis of PSTs. Before going into details, we need to recall PST with $P_{ymax}$ as the point with the largest $y-$coordinate and $x_{med}$ as the median $x$-coordinate among points in database $S$. A PST can be built up as shown in Figure~\ref{fig:PST1} where $S_{left}$ and $S_{right}$ are obtained as follows:
+This section is a continuation of the last session on Priority Search Trees (PSTs) where we are interested to dive deeper into the analysis of PSTs. Before going into details, we need to recall PST with $P_{ymax}$ as the point with the largest $y-$coordinate and $x_{med}$ as the median $x$-coordinate among points in the input set $S$. A PST can be built up as shown in Figure~\ref{fig:PST1} where $S_{left}$ and $S_{right}$ are obtained as follows:
 \begin{align*}
     & S_{left}=\{P \in S\setminus \{p_{ymax}\} \mid P.x \leq x_{med} \}\\
-    &  S_{right}=\{P \in S\setminus \{P_{ymax}\} \cup S_{right}\}\\
+    &  S_{right}=\{P \in S\setminus \{p_{ymax}\} \mid P.x > x_{med} \}
 \end{align*}
 \begin{figure}[h!]
 \begin{center}
@@ -92,14 +92,14 @@ We follow the subsequent steps to report all nodes corresponding to the specifie
     \item Follow left path down to $x_L$ (left boundary) and report all points in the subtrees hanging from the right.
     \item Follow right path down to $x_R$ (right boundary) and report all points in the subtrees hanging from the left.
 \end{itemize}
-The pseudocode shown in Alogrithm~\ref{3-sided} describes the query algorithm:
+The pseudocode shown in Algorithm~\ref{3-sided} describes the query algorithm.
 
 \begin{algorithm}[h!]
 \caption{3-sided Range Query}
 \label{3-sided}
 \begin{algorithmic}[1]
 \Function{3-sided Query}{$v, [x_L, x_R], y$}
-\While{$(v \neq NULL) \textbf{and} (v.x_{med} \leq x_L \ \textbf{or} \ x_R < v.x_{med})$}
+\While{$(v \neq NULL) \textbf{and} (v.x_{med} \leq x_L \ \textbf{or} \ x_R < v.x_{med})$} \Comment{Find the node where paths split}
     \If {$v \in [x_L, x_R] \times [y, +\infty]$}
         \State \Call{Output}{$v$}
     \EndIf
@@ -108,13 +108,14 @@ The pseudocode shown in Alogrithm~\ref{3-sided} describes the query algorithm:
     \Else
         \State {$v = v.left $}
     \EndIf
+\EndWhile
     \State {$v_{split} = v$}
     \State {$v = v.left$}
     \If {$v_{split} \in [x_L, x_R] \times [y, +\infty]$}
         \State \Call{Output}{$v_{split}$}
     \EndIf
-\EndWhile
-\While{$v \neq NULL$}
+
+\While{$v \neq NULL$}   \Comment{Follow the left path}
     \If {$v \in [x_L, x_R] \times [y, +\infty]$}
         \State \Call{Output}{$v$}
     \EndIf
@@ -124,10 +125,10 @@ The pseudocode shown in Alogrithm~\ref{3-sided} describes the query algorithm:
     \Else
         \State {$v = v.right $}
     \EndIf
-    \State {$v = v_{split}.right$}
 \EndWhile
+\State {$v = v_{split}.right$}
 
-\While{$v \neq NULL$}
+\While{$v \neq NULL$}   \Comment{Follow the right path}
     \If {$v \in [x_L, x_R] \times [y, +\infty]$}
         \State \Call{Output}{$v$}
     \EndIf
@@ -153,4 +154,4 @@ We start to find the splitting point with $x_L$ and $x_R$ as shown in Figure~\re
 \end{center}
 \end{figure}
 
-As discussed in the previous session, the running time for 2D query is of the order $T(v) = O(\log n+k)$ where $k$ denote the number of reported points. The PST for $n$ points uses $O(n \log n)$ memory space to store the data and takes $O(n \log n)$ to build.
+As discussed in the previous session, the running time for 2D query is of the order $T(v) = O(\log n+k)$ where $k$ denote the number of reported points. The PST for $n$ points uses $O(n \log n)$ memory space to store the data. Because along the path at each level of $x-$coordinate PST, we store each point in exactly one auxiliary PST (built on $y-$coordinate). Then, we use $O(n)$ memory space to store all nodes at each level and by considering $O(\log n)$ as the depth of $x-$coordinate PST, the total required memory would be $O(n\log n)$. In addition, the preprocessing time to build up the data structure takes $O(n \log n)$ as well. The reason is that the $y-$coordinate PST associated with each node at $x-$coordinate PST takes $O(n)$ to be constructed with bottom-up approach. Considering the fact that the depth of $x-$ coordinate PST is of the order $O(\log n)$, the total preprocessing time is bounded by $O(n\log n)$.
